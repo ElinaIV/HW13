@@ -38,7 +38,7 @@ void Calculator::calculate(const sf::Vector2f center, const float width, const f
 				Z.real(center.x - width / 2.0f + x * dx);
 				Z.imag(center.y - height / 2.0f + y * dy);
 
-				for (iteration = 0; (iteration < m_max_iterations) & (abs(Z) < 4.0f); iteration++) {
+				for (iteration = 0; (iteration < m_max_iterations) & (abs(Z) < 4.0f); ++iteration) {
 					Z = Z * Z + C;
 				}
 
