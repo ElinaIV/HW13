@@ -27,8 +27,6 @@ void Calculator::calculate(const sf::Vector2f center, const float width, const f
 		auto iteration = 0U;
 		std::complex <float> C{ -0.8, 0.156 };
 
-		float dx = width / m_width;
-		float dy = height / m_height;
 		for (auto y = first_y; y < last_y; ++y) {
 			for (auto x = 0U; x < m_width; ++x) {
 
