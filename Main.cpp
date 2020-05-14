@@ -5,18 +5,16 @@
 #include <chrono>
 #include <thread>
 
-const auto width = 800U;
+const auto width = 600U;
 const auto height = 600U;
+auto stepX = width / 10.0f;
+auto stepY = height / 10.0f;
 
 class Molecula {
 public:
-	float x, y, dx, dy;
-	float r;
+	float x, y, r;
 
-	Molecula() {
-		dx = gen_from_to(0, 15);
-		dy = gen_from_to(0, 15);
-		r = 3.0f;
+	Molecula() : r{ 2.0f } {
 		x = gen_from_to(10, width - 10);
 		y = gen_from_to(10, height - 10);
 	}
@@ -24,7 +22,6 @@ public:
 	void draw(sf::RenderWindow* window) {
 		sf::CircleShape circle(2.0f * r);
 		circle.setPosition(x, y);
-
 		circle.setFillColor(sf::Color::Red);
 
 		window->draw(circle);
@@ -46,15 +43,20 @@ public:
 	}
 };
 
+bool isInside(Molecula* m, const unsigned int xPos, const unsigned int yPos) {
+	return ((m->x < xPos) && (m->x > (xPos - stepX)) && (m->y < yPos) && (m->y > (yPos - stepY)));
+}
+
 int main() {
 	std::vector<Molecula*> moleculs;
-	int count = 15;
+	double count = 20;
 	for (int i = 0; i < count; i++) {
 		moleculs.push_back(new Molecula());
 	}
 
 	sf::RenderWindow window{ sf::VideoMode(width, height), "BROWN" };
-	window.setFramerateLimit(90);
+	window.setFramerateLimit(40);
+
 	while (window.isOpen()) {
 		sf::Event event;
 
@@ -64,13 +66,28 @@ int main() {
 			}
 		}
 
+		window.clear();
+		for (auto i = stepX; i <= width; i += stepX) {
+			for (auto j = stepY; j <= height; j += stepY) {
+				double counter = 0;
+				for (auto m : moleculs) {
+					if (isInside(m, i, j)) {
+						++counter;
+					}
+				}
+
+				sf::RectangleShape rectangle;
+				rectangle.setPosition(sf::Vector2f(i - stepX, j - stepY));
+				rectangle.setSize(sf::Vector2f(stepX, stepY));
+				rectangle.setFillColor(sf::Color(0, 255 * counter / count * 2.5f, 0));
+				window.draw(rectangle);
+			}
+		}
+		
 		for (auto m : moleculs) {
 			m->move();
 			m->draw(&window);
-			window.display();
-			window.clear();
 		}
-
 		window.display();
 	}
 
