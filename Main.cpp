@@ -54,7 +54,7 @@ int main() {
 		moleculs.push_back(new Molecula());
 	}
 
-	sf::RenderWindow window{ sf::VideoMode(width, height), "BROWN" };
+	sf::RenderWindow window{ sf::VideoMode(width, height), "BROWN!" };
 	window.setFramerateLimit(40);
 
 	while (window.isOpen()) {
