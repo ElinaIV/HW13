@@ -55,7 +55,7 @@ int main() {
 	}
 
 	sf::RenderWindow window{ sf::VideoMode(width, height), "BROWN!" };
-	window.setFramerateLimit(40);
+	window.setFramerateLimit(10);
 
 	while (window.isOpen()) {
 		sf::Event event;
